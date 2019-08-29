@@ -385,4 +385,11 @@ textarea {
   border-radius: 31px;
   border: 0px;
 }
+.SelectInput__selectInput___1I_W8>select {
+  margin-top: 10px;
+  margin-right: -10px;
+  padding: 16px 20px 16px 16px;
+  background-position: calc(100% - 10px) calc(1em + 8px),calc(100% - 4px) calc(1em + 8px),calc(100% - 2.5em) .5em;
+}
+
 </style>
