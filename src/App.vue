@@ -50,7 +50,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 // import query
 import { listRestaurants } from './graphql/queries';
 import { createRestaurant, deleteRestaurant } from './graphql/mutations';
-import { onCreateRestaurant } from './graphql/subscriptions';
+import { onCreateRestaurant, onDeleteRestaurant } from './graphql/subscriptions';
 import * as Observable from 'zen-observable';
 import uuid from 'uuid/v4';
 
@@ -77,16 +77,22 @@ export default {
     this.clientId = uuid();
 
     //Subscribe to changes
-    var subscription = API.graphql(
-      graphqlOperation(onCreateRestaurant)
-    );
-    
-    subscription.subscribe((sourceData) => {
+    API.graphql(graphqlOperation(onCreateRestaurant))
+    .subscribe((sourceData) => {
       const newRestaurant = (sourceData).value.data.onCreateRestaurant
       if (newRestaurant) {
         // skip our own mutations
         if (newRestaurant.clientId == this.clientId) return;
         this.restaurants = [newRestaurant, ...this.restaurants];
+      } 
+    });
+
+    API.graphql(graphqlOperation(onDeleteRestaurant))
+    .subscribe((sourceData) => {
+      const deletedRestaurant = (sourceData).value.data.onDeleteRestaurant
+      if (deletedRestaurant) {
+        if (deletedRestaurant.clientId == this.clientId) return;
+        this.restaurants = this.restaurants.filter((r) => r.id != deletedRestaurant.id );
       } 
     });
   
