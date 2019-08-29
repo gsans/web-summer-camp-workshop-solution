@@ -83,6 +83,7 @@ export default {
       if (newRestaurant) {
         // skip our own mutations
         if (newRestaurant.clientId == this.clientId) return;
+        if (this.restaurants.some(r => r.id == deletedRestaurant.id)) return;
         this.restaurants = [newRestaurant, ...this.restaurants];
       } 
     });
