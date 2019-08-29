@@ -79,21 +79,20 @@ export default {
     //Subscribe to changes
     API.graphql(graphqlOperation(onCreateRestaurant))
     .subscribe((sourceData) => {
-      const newRestaurant = (sourceData).value.data.onCreateRestaurant
+      const newRestaurant = sourceData.value.data.onCreateRestaurant
       if (newRestaurant) {
-        // skip our own mutations
+        // skip our own mutations and duplicates
         if (newRestaurant.clientId == this.clientId) return;
-        if (this.restaurants.some(r => r.id == deletedRestaurant.id)) return;
+        if (this.restaurants.some(r => r.id == newRestaurant.id)) return;
         this.restaurants = [newRestaurant, ...this.restaurants];
       } 
     });
 
     API.graphql(graphqlOperation(onDeleteRestaurant))
     .subscribe((sourceData) => {
-      const deletedRestaurant = (sourceData).value.data.onDeleteRestaurant
+      const deletedRestaurant = sourceData.value.data.onDeleteRestaurant
       if (deletedRestaurant) {
-        if (deletedRestaurant.clientId == this.clientId) return;
-        this.restaurants = this.restaurants.filter((r) => r.id != deletedRestaurant.id );
+        this.restaurants = this.restaurants.filter((r) => r.id != deletedRestaurant.id);
       } 
     });
   
