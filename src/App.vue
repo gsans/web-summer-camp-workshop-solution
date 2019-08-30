@@ -102,7 +102,6 @@ export default {
         case 'signedIn': {
           console.log("User signed in");
           this.currentUser();
-          this.getData();
           return;
         }
         case 'signedOut': {
