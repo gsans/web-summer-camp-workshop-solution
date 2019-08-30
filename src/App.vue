@@ -8,7 +8,7 @@
     </div>
     <amplify-authenticator :key="key"></amplify-authenticator>
     <div v-if="user.username">
-      <h1>Welcome, {{user.username}}!</h1>
+      <h1>Hey, {{user.username}}!</h1>
       <amplify-sign-out></amplify-sign-out>
     </div>
     <div class="form-body" v-if="user.username">
