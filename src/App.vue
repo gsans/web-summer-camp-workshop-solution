@@ -157,8 +157,7 @@ export default {
     async deleteRestaurant(restaurant) {
       if (restaurant) {
         try {
-          const { id, name, description, city } = restaurant;
-          const r = { id };
+          const r = { id: restaurant.id };
           const response = await API.graphql(graphqlOperation(deleteRestaurant, { input: r }))
           console.log('Item deleted!')
           this.restaurants = this.restaurants.filter((r) => r.id != restaurant.id );
